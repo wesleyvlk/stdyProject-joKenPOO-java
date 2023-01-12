@@ -13,7 +13,7 @@ public class Player {
         return player;
     }
 
-    protected void setPlayer(String player) {
+    protected void setPlayer(final String player) {
         this.player = player;
     }
 
@@ -21,12 +21,12 @@ public class Player {
         return score;
     }
 
-    protected void setScore(int score) {
+    protected void setScore(final int score) {
         this.score = score;
     }
 
     protected void incrementScore() {
         setScore(getScore() + 1);
     }
-    
+
 }

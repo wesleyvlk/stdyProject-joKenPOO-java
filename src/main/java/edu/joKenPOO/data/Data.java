@@ -1,25 +1,29 @@
 package main.java.edu.joKenPOO.data;
 
-public abstract class Data extends Choice {
+import java.util.stream.IntStream;
+
+public abstract class Data {
+    private final Player ia = new Player("IA", 0);
     protected Player player = new Player(null, 0);
-    private Player ia = new Player("IA", 0);
     protected int rounds;
 
-    protected void inGame() {
+    protected void playGame() {
         System.out.println("\n******* SEJA BEM-VINDO(A), " + player.getPlayer() + " *******\n");
-        for (int i = 1; i <= rounds; i++) {
-            int choicePlayer = choicePlayer();
-            int choiceIA = choiceIA();
-            String scoreRound = "\nRound " + i + ": \n\t" + player.getPlayer() + ": " + showChoice(choicePlayer)
-                    + " -VS- " + ia.getPlayer()
-                    + ": " + showChoice(choiceIA);
-            System.out.println(scoreRound);
-            int result = choicePlayer - choiceIA;
-            winnerRound(result);
-        }
+        IntStream.rangeClosed(1, rounds)
+                .forEach(round -> {
+                    final var choicePlayer = Choice.choicePlayer();
+                    final var choiceIA = Choice.choiceIA();
+                    final var scoreRound = "\nRound " + round + ": \n\t" + player.getPlayer() + ": "
+                            + Choice.showChoice(choicePlayer)
+                            + " -VS- " + ia.getPlayer()
+                            + ": " + Choice.showChoice(choiceIA);
+                    System.out.println(scoreRound);
+                    final var result = choicePlayer - choiceIA;
+                    winnerRound(result);
+                });
     }
 
-    private void winnerRound(int result) {
+    private void winnerRound(final int result) {
         String winnerRound;
         if (result == 0)
             winnerRound = "EMPATE!";
@@ -34,15 +38,16 @@ public abstract class Data extends Choice {
     }
 
     protected void scoreFinal() {
-        int playerScore = player.getScore();
-        int iaScore = ia.getScore();
-        System.out.println(
-                "PLACAR FINAL: \n\t" + player.getPlayer() + ": " + player.getScore() + " -VS- " + ia.getPlayer()
-                        + ": " + ia.getScore());
+        final var playerScore = player.getScore();
+        final var iaScore = ia.getScore();
+        final var scoreFinal = "PLACAR FINAL: \n\t" + player.getPlayer() + ": " + player.getScore() + " -VS- "
+                + ia.getPlayer()
+                + ": " + ia.getScore();
+        System.out.println(scoreFinal);
         if (playerScore == iaScore)
             System.out.println("\tEMPATE!");
         else {
-            final String winnerFinal = (iaScore > playerScore) ? ia.getPlayer() : player.getPlayer();
+            final var winnerFinal = (iaScore > playerScore) ? ia.getPlayer() : player.getPlayer();
             System.out.println("\tO VENCEDOR(A) É: " + winnerFinal.toUpperCase());
         }
         System.out.println();
